@@ -10,7 +10,11 @@ settings = get_app_settings()
 
 @lru_cache
 def init_template() -> Jinja2Blocks:
-    """Initializes Jinja2 templates."""
+    """Initializes Jinja templates using a drop in replacement for FastAPI`s
+    Jinja2Templates. It allows the usage of "partial/block" responses for better
+    integration with `htmx`.
+    """
+
     templates = Jinja2Blocks(
         settings.TEMPLATE_DIR,
         autoescape=True,
@@ -22,5 +26,5 @@ def init_template() -> Jinja2Blocks:
 
 @lru_cache
 def incl_static(app) -> None:
-    """Mount directory for static files."""
+    """Mount directory for static files, e.g. CSS, JavaScript, Images, etc..."""
     app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")

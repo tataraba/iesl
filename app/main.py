@@ -11,9 +11,13 @@ settings = get_app_settings()
 
 
 def get_app() -> FastAPI:
+    """Create a FastAPI factory that returns an `app` instance. App settings
+    are defined in settings with `fastapi_kwargs`.
+    """
+
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     mount.incl_static(app)
-    # app.include_router(routes)
+    app.include_router(routes)
 
     return app
 

@@ -51,8 +51,9 @@ class JsonFormatter(logging.Formatter):
         return "asctime" in self.fmt_dict.values()
 
     def formatMessage(self, record) -> dict:
-        """Overwritten to return a dictionary of the relevant LogRecord attributes instead of a string.
-        KeyError is raised if an unknown attribute is provided in the fmt_dict.
+        """Overwritten to return a dictionary of the relevant LogRecord attributes
+        instead of a string. KeyError is raised if an unknown attribute is provided
+        in the fmt_dict.
         """
         return {
             fmt_key: record.__dict__[fmt_val]

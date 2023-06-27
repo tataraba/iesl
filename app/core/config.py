@@ -10,7 +10,24 @@ APP_ROOT = Path(__file__).resolve().parent.parent
 
 
 class AppConfig(BaseModel):
-    """Configuration specific to the FastAPI application"""
+    """Application configuration using pydantic BaseModel ('more_settings').
+
+    Args:
+        BaseModel: pydantic BaseModel class.
+
+    Arguments:
+        title: Application title.
+        version: Application version.
+        debug: Debug mode.
+        docs_url: Documentation URL.
+        redoc_url: Redoc URL.
+        openapi_url: OpenAPI URL.
+        author: Author.
+        description: Application description.
+
+    Note:
+        Will be accessed as `app_settings` in the `settings` instance.
+    """
 
     title: str = "IESL"
     version: str = "0.0.1"
@@ -23,7 +40,20 @@ class AppConfig(BaseModel):
 
 
 class GlobalConfig(BaseSettings):
-    """Global settings to be used through all environments."""
+    """Provides configuration elements that can vary between dev, test, stage,
+    and production tiers. This class is inherited by each of the tiers. However,
+    the `settings` instance is generated from the `ENV_STATE` environment variable
+    matching the respective tier.
+
+    See References for more info.
+
+    References:
+        [Rednafi's Blog](https://rednafi.github.io/digressions/python/
+        2020/06/03/python-configs.html)
+
+    Args:
+        BaseSettings: pydantic BaseSettings.
+    """
 
     app_settings: AppConfig = AppConfig()
 
@@ -111,8 +141,9 @@ class PrdConfig(GlobalConfig):
 
 class FactoryConfig:
     """Inherits configuration from GlobalConfig. Depending on `ENV_STATE`,
-    it will inherit from DevConfig or PrdConfig. The .env files with "DEV_"
-    prefix are loaded for "dev", and "PRD_" prefix for "prd".
+    it will inherit from DevConfig, TestConfig, StgConfig, or PrdConfig.
+    For example, the .env values with "DEV_" prefix are loaded when the
+    `ENV_STATE` is "dev", and the same for respective `env_prefix` values.
     """
 
     def __init__(self, env_state: str | None) -> None:

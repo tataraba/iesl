@@ -13,6 +13,19 @@ settings = get_app_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """A context manager that calls startup/shutdown hooks for the given
+    application.
+
+    Anything prior to `yield` will be called before app startup, whereas
+    anything after will be called on app shutdown.
+
+    Args:
+        app: Cass pass a FastAPI instance, or passed as an attribute.
+
+    Raises:
+        RuntimeError: Will generate an error if app fails to startup.
+    """
+
     register_adapter(pnd.DateTime, lambda val: val.isoformat(" "))
     try:
         init_db()
