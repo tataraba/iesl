@@ -1,0 +1,42 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Mario Munoz", email = "pythonbynight@gmail.com"},
+]
+dependencies = [
+    "fastapi>=0.95.1",
+    "sqlmodel>=0.0.8",
+    "uvicorn[standard]>=0.22.0",
+    "pytailwindcss>=0.1.4",
+    "Jinja2>=3.1.2",
+    "python-dotenv>=1.0.0",
+    "rich>=13.3.5",
+    "jinja2-fragments>=0.3.0",
+    "attrs>=23.1.0",
+    "pendulum>=2.1.2",
+]
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+[tool.ruff]
+# Enable flake8-bugbear (`B`) rules.
+select = ["B", "E", "F", "Q", "W"]
+
+src = ["app", "tests"]
+line-length = 88
+target-version = "py311"
+
+# Never enforce `E501` (line length violations).
+ignore = ["E501"]
+
+# Disable autofix for unused imports
+unfixable = ["F401"]
+
+# Ignore `E402` (import violations) in all `__init__.py` files.
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
