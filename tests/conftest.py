@@ -1,10 +1,8 @@
 from contextlib import asynccontextmanager
 
-import pytest
 import pytest_asyncio
 from app.main import app
 from asgi_lifespan import LifespanManager
-from fastapi import FastAPI
 from httpx import AsyncClient
 
 
