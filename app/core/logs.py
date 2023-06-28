@@ -21,8 +21,9 @@ FILE_FORMAT: str = (
     "%(levelname)s %(asctime)s [%(filename)s:%(funcName)s:%(lineno)d] %(message)s"
 )
 
-# Create directory if none exists
+# Create log directory if none exists
 settings.LOG_DIR.mkdir(parents=True, exist_ok=True)
+
 LOGGER_FILE: Path = Path(settings.LOG_DIR / settings.LOG_FILENAME)
 LOGGER_FILE_MODE: str = settings.LOG_FILE_MODE
 
