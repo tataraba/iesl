@@ -40,3 +40,15 @@ unfixable = ["F401"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "asgi-lifespan>=2.1.0",
+    "httpx>=0.24.1",
+]
+lint = [
+    "ruff>=0.0.275",
+    "black>=23.3.0",
+]
