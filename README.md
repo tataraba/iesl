@@ -5,7 +5,7 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+- [Testing](#testing)
 
 ## About <a name = "about"></a>
 
@@ -53,3 +53,16 @@ uvicorn app.main:app --reload
 ```
 
 This will create sqlite tables and generate a hello world page. This will be updated as progress continues.
+
+
+## Testing <a name = "testing"></a>
+
+You can run tests by typing this in your terminal:
+
+```
+pytest
+```
+
+Right now, the test passes if the application starts up successfully and sends a 200 response.
+
+Pytest configurations are contained in `pyproject.toml`.
