@@ -1,13 +1,16 @@
+# Set shell for Windows OSs (PowerShell Core):
 set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 set dotenv-load := false
 
 bool_prefix := if os_family() == "windows" { "$" } else { "" }
-system_python := if os_family() == "windows" { "py.exe" } else { "python" }
 python_dir := if os_family() == "windows" { ".venv/Scripts" } else { ".venv/bin" }
-python := python_dir + if os_family() == "windows" { "/python" } else { "/python" }
+python := python_dir + if os_family() == "windows" { "/python.exe" } else { "/python" }
+system_python := if os_family() == "windows" { "py.exe" } else { "python" }
 uvicorn := python_dir + if os_family() == "windows" { "/uvicorn.exe" } else { "/uvicorn" }
 uvicorn_exists := bool_prefix + path_exists(uvicorn)
 venv_exists := bool_prefix + path_exists(".venv")
+
+
 
 @_default:
     just --list
@@ -15,35 +18,23 @@ venv_exists := bool_prefix + path_exists(".venv")
 @_venv:
     {{ system_python }} -m venv .venv --upgrade-deps
 
-[unix]
-@_check_for_pdm:
-    where pdm
-
-[windows]
-@_check_for_pdm:
-    (Get-Command pdm3).Source || where pdm
+@_venv_pdm:
+    just create_venv
+    {{ python }} -m pip install pdm
+    pdm install
 
 # create a virtual environment and upgrade pip
 @create_venv:
-    if (-not ( {{ venv_exists }} )) { \
-        just _venv \
-    } else { \
-        echo "Virtual environment already exists" \
-    }
+    if (-not ( {{ venv_exists }} )) { just _venv } else { echo 'Virtual environment already exists' }
 
 # start the application
 @start_app:
-    if ((-not {{ uvicorn_exists }} )) { \
-        just setup \
-    } else { \
-        echo "stand by" \
-    }
+    if ((-not {{ uvicorn_exists }} )) { just setup } else { echo "Starting app..." }
     {{ uvicorn }} app.main:app --reload
 
 # installs/updates all dependencies
 @bootstrap:
-    pdm install || just create_venv
-    {{ python }} -m pip install pdm &&  {{ python }} -m pdm install
+    pdm install || just _venv_pdm
 
 # run '--fmt' in "check" mode.
 @check:
