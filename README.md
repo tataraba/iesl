@@ -8,6 +8,7 @@
   - [Getting Started ](#getting-started-)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
+    - [Just Go](#just-go)
       - [Using PDM](#using-pdm)
       - [Using venv](#using-venv)
   - [Usage ](#usage-)
@@ -40,9 +41,41 @@ All dependencies are also exported to the `requirements.txt` file.
 
 ### Installing
 
+Your first step should be cloning this repository for yourself. Once you have it in your system, navigate to the project folder and use one of the methods below for getting started.
+
+### Just Go
+
+The quickest way to get going is using the `just go` command. Of course, to do that, you will need to have [`just` installed](https://just.systems/man/en/chapter_1.html). Thankfully, there are [various ways to do that](https://just.systems/man/en/chapter_4.html) for just about any operating system.
+
+Once you have it installed, you can type `just` in your terminal to access a list of recipes available to you:
+
+```
+Available recipes:
+    bootstrap     # installs/updates all dependencies
+    create_venv   # create a virtual environment and upgrade pip
+    go            # starts app, installing all dependencies if needed
+    reqs          # updates requirements.txt with hashed dependencies
+    setup         # sets up a project to be used for the first time
+    start_app     # start the application
+    test          # runs tests
+```
+
+When you're ready, type the following in your terminal:
+
+```
+just go
+```
+
+This will attempt to run the app. If it doesn't find the correct dependencies, it will do all the setup for you. The first time you do this, it may take a few minutes for your virtual environment to be created and dependencies to be installed.
+
+Once that is complete, the application will be started (this will also create a series of SQLite tables).
+
+At the end, you should have the application running on http://127.0.0.1:8000!
+
+
 #### Using PDM
 
-As implied above, I use [PDM](https://pdm.fming.dev/latest/) as my package manager. If you have PDM installed, all you need to do to get started is clone the repo and run the following command:
+As implied above, I use [PDM](https://pdm.fming.dev/latest/) as my package manager. If you have PDM installed, you can also get started by typing:
 
 ```
 pdm install
@@ -80,13 +113,13 @@ pipx install pdm
 
 This will then allow you to use the `pdm` CLI within any python project.
 
-(Now you can navigato to the project root and run the `pdm install` command as noted above.)
+(Now you can navigate to the project root and run the `pdm install` command as noted above.)
 
 #### Using venv
 
 You can also get started more traditionally by creating your own virtual environment and installing dependencies using `pip`.
 
-After cloning, navigate to the location where you have cloned the project (your project root) and run the following command in your terminal:
+Make sure you're at the project root and type:
 
 ```
 python -m venv .venv
@@ -112,13 +145,17 @@ python -m pip install -r requirements.txt
 
 ## Usage <a name = "usage"></a>
 
-You can then start the application by running the following command:
+You can then start the application by running the following command(s):
 
 ```
+# using just
+just go
+
+# or, make sure you've activated your virtual environment
 uvicorn app.main:app --reload
 ```
 
-This will create sqlite tables and generate the main page. This section will be updated as progress continues.
+Your first time, this will create SQLite tables and generate the main page. This section will be updated as progress continues.
 
 
 ## Testing <a name = "testing"></a>

@@ -36,15 +36,15 @@ venv_exists := bool_prefix + path_exists(".venv")
 @bootstrap:
     pdm install || just _venv_pdm
 
-# run '--fmt' in "check" mode.
-@check:
+# run '--fmt' in "check" mode
+@_check:
     just --check --fmt --unstable
 
 # format and overwrite justfile
-@fmt:
+@_fmt:
     just --fmt --unstable
 
-# starts app
+# starts app, installing all dependencies if needed
 @go:
     {{ uvicorn }} app.main:app --reload || \
     just start_app
