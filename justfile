@@ -9,7 +9,7 @@ system_python := if os_family() == "windows" { "py.exe" } else { "python" }
 uvicorn := python_dir + if os_family() == "windows" { "/uvicorn.exe" } else { "/uvicorn" }
 uvicorn_exists := bool_prefix + path_exists(uvicorn)
 venv_exists := bool_prefix + path_exists(".venv")
-
+venv_activate =: bool_prefix := if os_family() == "windows" { "./venv/Scripts/activate" } else { "source ./venv/bin/activate" }
 
 
 @_default:
@@ -21,7 +21,7 @@ venv_exists := bool_prefix + path_exists(".venv")
 @_venv_pdm:
     just create_venv
     {{ python }} -m pip install pdm
-    pdm install
+    venv_activate && pdm install
 
 # create a virtual environment and upgrade pip
 @create_venv:
