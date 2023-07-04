@@ -12,6 +12,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "asgi-htmx"
+version = "0.1.0"
+requires_python = ">=3.8"
+summary = "HTMX integration for ASGI applications."
+
+[[package]]
 name = "asgi-lifespan"
 version = "2.1.0"
 requires_python = ">=3.7"
@@ -395,12 +401,16 @@ summary = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "lint", "test"]
-content_hash = "sha256:630c854ba749db1b770cf3735191ddb2df57e54744706a51fed952d93c371b83"
+content_hash = "sha256:d7fe2d6415dae7d689b2e144160f69345c7c79add0793e08b16daa16af99a8eb"
 
 [metadata.files]
 "anyio 3.7.0" = [
     {url = "https://files.pythonhosted.org/packages/68/fe/7ce1926952c8a403b35029e194555558514b365ad77d75125f521a2bec62/anyio-3.7.0-py3-none-any.whl", hash = "sha256:eddca883c4175f14df8aedce21054bfca3adb70ffe76a9f607aef9d7fa2ea7f0"},
     {url = "https://files.pythonhosted.org/packages/c6/b3/fefbf7e78ab3b805dec67d698dc18dd505af7a18a8dd08868c9b4fa736b5/anyio-3.7.0.tar.gz", hash = "sha256:275d9973793619a5374e1c89a4f4ad3f4b0a5510a2b5b939444bee8f4c4d37ce"},
+]
+"asgi-htmx 0.1.0" = [
+    {url = "https://files.pythonhosted.org/packages/3b/c7/5490c81826f003038fab6047384ac77fd848296453e6dd0784b055ebba41/asgi_htmx-0.1.0-py3-none-any.whl", hash = "sha256:622a98b5c31a8b9857de6a5a9cd97d584b0ee21b88e0a8a56dc237d172b75c9b"},
+    {url = "https://files.pythonhosted.org/packages/ab/6b/d013c1e0fd6de4f8fbbc253d74766df50146bacfee856093722f10d30a2e/asgi-htmx-0.1.0.tar.gz", hash = "sha256:3c6cb1419f05d53ea593bfe684c88b4941b22063c7628720ec99de9197587623"},
 ]
 "asgi-lifespan 2.1.0" = [
     {url = "https://files.pythonhosted.org/packages/2f/f5/c36551e93acba41a59939ae6a0fb77ddb3f2e8e8caa716410c65f7341f72/asgi_lifespan-2.1.0-py3-none-any.whl", hash = "sha256:ed840706680e28428c01e14afb3875d7d76d3206f3d5b2f2294e059b5c23804f"},

@@ -1,0 +1,1 @@
+<script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>

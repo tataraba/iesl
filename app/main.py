@@ -1,3 +1,4 @@
+from asgi_htmx import HtmxMiddleware
 from fastapi import FastAPI
 
 from app.core.config import get_app_settings
@@ -16,6 +17,7 @@ def get_app() -> FastAPI:
     """
 
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
+    app.add_middleware(HtmxMiddleware)
     mount.incl_static(app)
     app.include_router(routes)
 
