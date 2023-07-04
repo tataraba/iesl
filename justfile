@@ -53,6 +53,7 @@ venv_activate := python_dir + if os_family() == "windows" { "/activate.bat" } el
 @setup:
     echo "Setting up your project... "
     just bootstrap
+    tailwindcss_install
 
 # runs tests
 @test:
