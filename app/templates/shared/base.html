@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title>{{ meta_title }}</title>
   <meta name="description" content="{{ meta_description }}"/>
-  <meta name="keywords" content="Python by night is what happens when there's not enough time during the day.">
+  <meta name="keywords" content="Inland Empire Soccer League schedule, stats, and more..">
   <meta name="HandheldFriendly" content="True"/>
   <meta name="viewport" content="width=device-width, initial-scale={{ meta_view_ratio }}, viewport-fit=cover"/>
   <meta name="theme-color" content="#cccccc"/>
   <meta property="og:site_name" content="{{ meta_title }}"/>
-  <meta property="og:type" content="Learning python by night..."/>
+  <meta property="og:type" content="Inland Empire Soccer League"/>
   <meta property="og:title" content="{{ meta_title }}"/>
   <meta property="og:description"  content="{{ meta_description }}"/>
   <meta property="og:url" content="https://wwww.pythonbynight.com"/>
@@ -19,12 +19,12 @@
   <link rel="icon" type="image/png" href="/images/favicon/favicon.png">
 
   {% block pagestyles %}
-    {% include "/shared/_styles.html" %}
+    {% include "/shared/styles.html" %}
   {% endblock %}
 </head>
-<body class="h-full bg-dark h-40">
+<body>
     {% block header %}
-    {% include "/shared/_header.html" %}
+    {% include "/shared/header.html" %}
     {% endblock %}
 
     {% block content %}
@@ -34,7 +34,7 @@
     {% endblock %}
 
     {% block footer %}
-    {% include "/shared/_footer.html" %}
+    {% include "/shared/footer.html" %}
     {% endblock %}
 </body>
 </html>
