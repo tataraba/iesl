@@ -9,7 +9,7 @@ SQLITE_DB_URL = f"sqlite:///{settings.DATA_DIR / settings.SQLITE_DB_FILE}"
 CONNECT_ARGS = {"check_same_thread": False}
 
 engine = create_engine(
-    SQLITE_DB_URL, pool_pre_ping=True, echo=True, connect_args=CONNECT_ARGS
+    SQLITE_DB_URL, pool_pre_ping=True, echo=False, connect_args=CONNECT_ARGS
 )
 
 

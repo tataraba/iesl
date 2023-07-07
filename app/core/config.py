@@ -3,6 +3,7 @@ import secrets
 from functools import lru_cache
 from pathlib import Path
 
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, BaseSettings, Field
 
 logger = logging.getLogger(__name__)
@@ -37,7 +38,7 @@ class AppConfig(BaseModel):
     openapi_url: str = "/openapi.json"
     author: str = "Mario Munoz"
     description: str = "Inland Empire Soccer League info and stats."
-
+    default_response_class: HTMLResponse = HTMLResponse
 
 class GlobalConfig(BaseSettings):
     """Provides configuration elements that can vary between dev, test, stage,

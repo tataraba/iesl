@@ -9,7 +9,7 @@ system_python := if os_family() == "windows" { "py.exe" } else { "python" }
 uvicorn := python_dir + if os_family() == "windows" { "/uvicorn.exe" } else { "/uvicorn" }
 uvicorn_exists := bool_prefix + path_exists(uvicorn)
 venv_exists := bool_prefix + path_exists(".venv")
-
+venv_activate := python_dir + if os_family() == "windows" { "/activate.bat" } else { "/activate" }
 
 
 @_default:
@@ -21,43 +21,52 @@ venv_exists := bool_prefix + path_exists(".venv")
 @_venv_pdm:
     just create_venv
     {{ python }} -m pip install pdm
-    pdm install
+    {{ venv_activate }} && echo "Installing dependencies with PDM" && pdm install
 
-# create a virtual environment and upgrade pip
-@create_venv:
-    if (-not ( {{ venv_exists }} )) { just _venv } else { echo 'Virtual environment already exists' }
+# starts app
+@go:
+    {{ uvicorn }} app.main:app --reload || just start_app
 
 # start the application
 @start_app:
     if ((-not {{ uvicorn_exists }} )) { just setup } else { echo "Starting app..." }
     {{ uvicorn }} app.main:app --reload
 
+# sets up a project to be used for the first time
+@setup:
+    echo "Setting up your project... "
+    just bootstrap
+    tailwindcss_install
+
 # installs/updates all dependencies
 @bootstrap:
     pdm install || just _venv_pdm
 
-# run '--fmt' in "check" mode
-@_check:
+# create a virtual environment and upgrade pip
+@create_venv:
+    if (-not ( {{ venv_exists }} )) { just _venv } else { echo 'Virtual environment already exists' }
+
+# updates requirements.txt with hashed dependencies
+@reqs:
+    pdm export -o requirements.txt
+
+# runs tests
+@test:
+    pytest
+
+# starts tailwind watcher
+@tw_watch:
+    {{ python_dir }}/tailwindcss -i ./app/static/src/tw.css -o ./app/static/css/main.css --watch
+
+# run '--fmt' in "check" mode.
+@check:
     just --check --fmt --unstable
 
 # format and overwrite justfile
 @_fmt:
     just --fmt --unstable
 
-# starts app, installing all dependencies if needed
-@go:
-    {{ uvicorn }} app.main:app --reload || \
-    just start_app
+@hi:
+    {{ venv_activate }} && python --help
 
-# sets up a project to be used for the first time
-@setup:
-    echo "Setting up your project... "
-    just bootstrap
 
-# runs tests
-@test:
-    pytest
-
-# updates requirements.txt with hashed dependencies
-@reqs:
-    pdm export -o requirements.txt

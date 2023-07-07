@@ -16,6 +16,7 @@ dependencies = [
     "jinja2-fragments>=0.3.0",
     "attrs>=23.1.0",
     "pendulum>=2.1.2",
+    "asgi-htmx>=0.1.0",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
