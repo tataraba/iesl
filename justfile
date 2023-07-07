@@ -23,18 +23,40 @@ venv_activate := python_dir + if os_family() == "windows" { "/activate.bat" } el
     {{ python }} -m pip install pdm
     {{ venv_activate }} && echo "Installing dependencies with PDM" && pdm install
 
-# create a virtual environment and upgrade pip
-@create_venv:
-    if (-not ( {{ venv_exists }} )) { just _venv } else { echo 'Virtual environment already exists' }
+# starts app
+@go:
+    {{ uvicorn }} app.main:app --reload || just start_app
 
 # start the application
 @start_app:
     if ((-not {{ uvicorn_exists }} )) { just setup } else { echo "Starting app..." }
     {{ uvicorn }} app.main:app --reload
 
+# sets up a project to be used for the first time
+@setup:
+    echo "Setting up your project... "
+    just bootstrap
+    tailwindcss_install
+
 # installs/updates all dependencies
 @bootstrap:
     pdm install || just _venv_pdm
+
+# create a virtual environment and upgrade pip
+@create_venv:
+    if (-not ( {{ venv_exists }} )) { just _venv } else { echo 'Virtual environment already exists' }
+
+# updates requirements.txt with hashed dependencies
+@reqs:
+    pdm export -o requirements.txt
+
+# runs tests
+@test:
+    pytest
+
+# starts tailwind watcher
+@tw_watch:
+    {{ python_dir }}/tailwindcss -i ./app/static/src/tw.css -o ./app/static/css/main.css --watch
 
 # run '--fmt' in "check" mode.
 @check:
@@ -44,21 +66,7 @@ venv_activate := python_dir + if os_family() == "windows" { "/activate.bat" } el
 @fmt:
     just --fmt --unstable
 
-# starts app
-@go:
-    {{ uvicorn }} app.main:app --reload || \
-    just start_app
+@hi:
+    {{ venv_activate }} && python --help
 
-# sets up a project to be used for the first time
-@setup:
-    echo "Setting up your project... "
-    just bootstrap
-    tailwindcss_install
 
-# runs tests
-@test:
-    pytest
-
-# updates requirements.txt with hashed dependencies
-@reqs:
-    pdm export -o requirements.txt
