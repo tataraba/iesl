@@ -12,6 +12,7 @@
       - [Using PDM](#using-pdm)
       - [Using venv](#using-venv)
   - [Usage ](#usage-)
+    - [Create A `.env` File](#create-a-env-file)
   - [Testing ](#testing-)
 
 ## About <a name = "about"></a>
@@ -58,6 +59,7 @@ Available recipes:
     setup         # sets up a project to be used for the first time
     start_app     # start the application
     test          # runs tests
+    tw_watch      # starts tailwind watcher
 ```
 
 When you're ready, type the following in your terminal:
@@ -72,10 +74,18 @@ Once that is complete, the application will be started (this will also create a 
 
 At the end, you should have the application running on http://127.0.0.1:8000!
 
+>**Note** Under the hood:
+>
+> `just` is a command-runner, composed of "recipes" that correspond to specific CLI commands. The `just go` command runs through a series of steps to setup and run your application. This includes creating a virtual environment, installing needed dependencies, setting up tailwind css, and starting the FastAPI application.
+>
+> You can review the commands that are initiated by looking at the `justfile` in your project directory.
+
 
 #### Using PDM
 
-As implied above, I use [PDM](https://pdm.fming.dev/latest/) as my package manager. If you have PDM installed, you can also get started by typing:
+If you don't want to use the command runner, you can use your own package manager.
+
+As implied above, I use [PDM](https://pdm.fming.dev/latest/) as my package manager of choice. If you have PDM installed, you can also get started by typing:
 
 ```
 pdm install
@@ -115,6 +125,22 @@ This will then allow you to use the `pdm` CLI within any python project.
 
 (Now you can navigate to the project root and run the `pdm install` command as noted above.)
 
+You may also need to install the tailwind binary. First, activate your virtual environment:
+
+```
+# On Windows
+.\.venv\Scripts\activate
+
+# On MacOS/Linux
+$ source .venv/bin/activate
+
+```
+
+Then install run the following command:
+```
+tailwindcss_install
+```
+
 #### Using venv
 
 You can also get started more traditionally by creating your own virtual environment and installing dependencies using `pip`.
@@ -143,20 +169,30 @@ Then, install the requirements:
 python -m pip install -r requirements.txt
 ```
 
+After you have installed the requirements, you will be able to install the tailwind binary. If your virtual environment is still activated, type this in your terminal:
+
+```
+tailwindcss_install
+```
+
+
 ## Usage <a name = "usage"></a>
 
 You can then start the application by running the following command(s):
 
 ```
-# using just
-just go
-
-# or, make sure you've activated your virtual environment
+# make sure you've activated your virtual environment
 uvicorn app.main:app --reload
+
+# using `just` command
+just go
 ```
 
 Your first time, this will create SQLite tables and generate the main page. This section will be updated as progress continues.
 
+### Create A `.env` File
+
+The repo includes an `.example.env` file. You can remove the `.example` portion of this and convert it to a `.env` file. This will allow you to keep secrets (eventually).
 
 ## Testing <a name = "testing"></a>
 
