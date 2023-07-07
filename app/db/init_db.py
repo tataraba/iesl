@@ -15,7 +15,12 @@ def init_db():
     Raises:
         RuntimeError: Error if database fails to generate tables.
     """
-    if settings.ENV_STATE == "dev":
+    # if settings.ENV_STATE == "dev":
+    #     SQLModel.metadata.create_all(engine)
+    # else:
+    #     raise RuntimeError
+
+    try:
         SQLModel.metadata.create_all(engine)
-    else:
-        raise RuntimeError
+    except Exception as e:
+        raise RuntimeError from e

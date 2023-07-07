@@ -58,7 +58,7 @@ class GlobalConfig(BaseSettings):
 
     app_settings: AppConfig = AppConfig()
 
-    ENV_STATE: str = Field(..., env="ENV_STATE")
+    ENV_STATE: str = Field("dev", env="ENV_STATE")
     DISABLE_DOCS: bool = False
 
     APP_DIR: Path = APP_ROOT
@@ -71,7 +71,7 @@ class GlobalConfig(BaseSettings):
     LOG_FILENAME: str = "iesl.log"
     LOG_FILE_MODE: str = "w"  # use `a` for append, `w` for overwrite
 
-    SQLITE_DB_FILE: str = None
+    SQLITE_DB_FILE: str = "dev-tmp-datastore.db"  # Default - if not provided in .env file
 
     SECRET_KEY: str = secrets.token_urlsafe(32)
 
@@ -116,6 +116,7 @@ class DevConfig(GlobalConfig):
 class TestConfig(GlobalConfig):
     """Test configurations, using test database."""
 
+    PYTHONASYNCIODEBUG = 1
     LOG_LEVEL: int = logging.INFO
 
     class Config:
@@ -125,6 +126,7 @@ class TestConfig(GlobalConfig):
 class StgConfig(GlobalConfig):
     """Staging configurations."""
 
+    PYTHONASYNCIODEBUG = 1
     LOG_LEVEL: int = logging.INFO
 
     class Config:
