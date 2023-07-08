@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 from jinja2_fragments.fastapi import Jinja2Blocks
 
 from app.core.config import get_app_settings
+from app.webtools._pagebuilder import DefaultSEO, DefaultView, Page, Render
 
 logger = logging.getLogger(__name__)
 settings = get_app_settings()
@@ -26,6 +27,15 @@ def homepage(request: Request):
         }
     )
 
+@router.get("/test")
+def pagebuilder(request: Request):
+    page = Page(request=request, template="main.html")
+    seo = DefaultSEO()
+    view = DefaultView()
+
+    homepage = Render(page=page, seo=seo, view=view)
+
+    return homepage.render()
 
 # @router.get("/")
 # def homey(request: Request):

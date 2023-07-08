@@ -10,6 +10,7 @@ __all__ = [
 ]
 
 
+from .base import BaseSQLModel
 from .league_data.league import League
 from .league_data.player import Player
 from .league_data.player_team_league import PlayerTeamLeagueLink

@@ -30,7 +30,7 @@ class AppConfig(BaseModel):
         Will be accessed as `app_settings` in the `settings` instance.
     """
 
-    title: str = "IESL"
+    title: str = "Inland Empire Soccer League"
     version: str = "0.0.1"
     debug: bool = False
     docs_url: str = "/docs"
