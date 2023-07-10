@@ -45,6 +45,3 @@ class PageBuilder(Protocol):
             block_name=self.block_name
         )
 
-
-@define
-SEO:

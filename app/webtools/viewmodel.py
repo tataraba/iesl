@@ -1,30 +1,52 @@
-import logging
+from typing import Any
 
-from attrs import define
-from fastapi import Request
+from attrs import asdict, define
+from fastapi import Response
 
-from app.core.config import get_app_settings
-from app.models.base import BaseSQLModel
+from ._pagebuilder import Page, PageMeta, View
+from .metadata import HTMLMetaData
+from .mount import init_template
 
-from .pagebuilder import PageBuilder
+template = init_template()
 
-logger = logging.getLogger(__name__)
-settings = get_app_settings()
+class DefaultPageMeta:
+    """Interface for creating the HTML page metadata elements,
+    which match the defaults set in `HTMLMetaData` class.
+    """
+
+    meta_data = asdict(HTMLMetaData())
+
+    def add_meta_tags(self, page: Page) -> None:
+        _context = {"request": page.request} | self.meta_data
+        page.context = _context
+
+
+class DefaultView:
+    """Interface for creating a "default" page view, sending
+    only the most basic request and context. Also contains
+    the function that sends response to front end.
+    """
+
+    def model_data(self) -> dict[str, Any] | None:
+        return None
+
+    def render_page(self, page: Page) -> Response:
+        return template.TemplateResponse(
+            page.template,
+            context=page.context,
+            block_name=page.block_name
+        )
 
 
 @define
-class BaseView(PageBuilder):
+class Render:
+    page: Page
+    meta_tags: PageMeta
+    view: View
 
-    request: Request | None = None
-    seo: dict | None = None
-    model: BaseSQLModel | None = None
-
-
-    def to_context(self) -> dict:
-        return {"request": self.request | self.seo}
-
-
-@define
-class IndexView(BaseView):
-    pass
-
+    def render(self) -> Response:
+        self.meta_tags.add_meta_tags(self.page)
+        _data_for_context = self.view.model_data()
+        if _data_for_context:
+            self.page.context.update(_data_for_context)
+        return self.view.render_page(self.page)
