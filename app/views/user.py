@@ -26,4 +26,3 @@ def homepage(request: Request):
     homepage = Render(page=page, meta_tags=meta, view=view)
 
     return homepage.render()
-

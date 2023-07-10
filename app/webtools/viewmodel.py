@@ -3,9 +3,9 @@ from typing import Any
 from attrs import asdict, define
 from fastapi import Response
 
-from ._pagebuilder import Page, PageMeta, View
 from .metadata import HTMLMetaData
 from .mount import init_template
+from .pagebuilder import Page, PageMeta, View
 
 template = init_template()
 
