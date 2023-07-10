@@ -106,7 +106,6 @@ class GlobalConfig(BaseSettings):
 class DevConfig(GlobalConfig):
     """Development configurations."""
 
-    PYTHONASYNCIODEBUG = 1
     LOG_LEVEL: int = logging.DEBUG
 
     class Config:
@@ -116,7 +115,6 @@ class DevConfig(GlobalConfig):
 class TestConfig(GlobalConfig):
     """Test configurations, using test database."""
 
-    PYTHONASYNCIODEBUG = 1
     LOG_LEVEL: int = logging.INFO
 
     class Config:
@@ -126,7 +124,6 @@ class TestConfig(GlobalConfig):
 class StgConfig(GlobalConfig):
     """Staging configurations."""
 
-    PYTHONASYNCIODEBUG = 1
     LOG_LEVEL: int = logging.INFO
 
     class Config:
