@@ -15,8 +15,6 @@ templates = Jinja2Blocks(
     settings.TEMPLATE_DIR,
 )
 
-logger.info("Loading templates from %s", settings.TEMPLATE_DIR)
-
 @router.get("/")
 def homepage(request: Request):
     page = Page(request=request, template="main.html")
