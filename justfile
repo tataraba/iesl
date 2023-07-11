@@ -21,7 +21,7 @@ venv_activate := python_dir + if os_family() == "windows" { "/activate.bat" } el
 @_venv_pdm:
     just create_venv
     {{ python }} -m pip install pdm
-    {{ venv_activate }} && echo "Installing dependencies with PDM" && pdm install
+    {{ venv_activate }} && echo "Installing dependencies with PDM" && {{ python_dir }}/pdm install
 
 # starts app
 @go:
