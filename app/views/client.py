@@ -42,6 +42,7 @@ def homepage(request: Request):
 # @form_it(model=season)
 @router.get("/add")
 def add(request: Request):
+
     page = Page(request=request, template="admin/add.html")
     meta = DefaultPageMeta()
     view = DefaultView()
@@ -50,12 +51,15 @@ def add(request: Request):
 
     return homepage.render()
 
-@form_it(model=season)
+# @form_it(model=season)
 @router.post("/add")
 def add_season(request: Request):
-    print(locals())
-    print(request.headers.items())
-    page = Page(request=request, template="admin/dashboard.html")
+    _template = "admin/add.html"
+
+    if request["htmx"]:
+        print(request.headers.items())
+        _template = "admin/_ok.html"
+    page = Page(request=request, template=_template)
     meta = DefaultPageMeta()
     view = DefaultView()
 
